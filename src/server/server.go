@@ -3,9 +3,8 @@ package server
 import (
 	"github.com/hansels/coda-payments-self-api/src/api"
 	"github.com/julienschmidt/httprouter"
-	"log"
-
 	"github.com/rs/cors"
+	"log"
 	"net/http"
 )
 
@@ -34,9 +33,9 @@ func (h *Handler) Run() {
 	})
 
 	router := httprouter.New()
-	api.New(&api.Opts{
-		Delay: h.options.Delay,
-	}).Register(router)
+
+	apiOpts := &api.Opts{Delay: h.options.Delay}
+	api.New(apiOpts).Register(router)
 
 	handler := c.Handler(router)
 	h.listenErrCh <- http.ListenAndServe(h.options.ListenAddress, handler)
